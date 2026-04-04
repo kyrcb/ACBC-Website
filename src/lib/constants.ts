@@ -20,3 +20,20 @@ export const SITE_CONFIG = {
     { label: "Contact", href: "/contact" },
   ],
 };
+
+/**
+ * Image paths — drop your files into public/images/ and update these paths.
+ *
+ * Logo:      public/images/logo.png         (the circular badge logo)
+ * Hero bg:   public/images/camp-hero.jpg    (camp photo for hero background)
+ * Camp imgs: public/images/camp-*.jpg       (gallery / about section photos)
+ */
+export const IMAGES = {
+  logo: "/images/logo.png",
+  campHero: "/images/camp-hero.jpg",
+  campGallery: [
+    "/images/camp-1.jpg",
+    "/images/camp-2.jpg",
+    "/images/camp-3.jpg",
+  ],
+};

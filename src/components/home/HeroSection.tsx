@@ -1,10 +1,30 @@
+// To add a camp background photo:
+// 1. Place your photo at public/images/camp-hero.jpg
+// 2. Uncomment the Image and overlay divs below
+// 3. Add "use client" at the top if you need onError handling
+
 import Button from "@/components/ui/Button";
 import { SITE_CONFIG } from "@/lib/constants";
 
+// import Image from "next/image";
+// import { IMAGES } from "@/lib/constants";
+
 export default function HeroSection() {
   return (
-    <section className="bg-navy-700 text-white min-h-[90vh] flex items-center">
-      <div className="mx-auto max-w-content px-6 py-24 md:py-32">
+    <section className="relative bg-navy-700 text-white min-h-[90vh] flex items-center overflow-hidden">
+      {/*
+        Camp background photo (uncomment once public/images/camp-hero.jpg is added):
+        <Image
+          src={IMAGES.campHero}
+          alt="Camp background"
+          fill
+          className="object-cover opacity-20"
+          priority
+        />
+        <div className="absolute inset-0 bg-navy-700/80" />
+      */}
+
+      <div className="relative mx-auto max-w-content px-6 py-24 md:py-32">
         <h1 className="font-serif text-4xl md:text-6xl font-bold leading-tight max-w-3xl">
           {SITE_CONFIG.tagline
             .split(". ")

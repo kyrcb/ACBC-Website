@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG, IMAGES } from "@/lib/constants";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -13,13 +14,23 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="mx-auto max-w-content px-6 flex items-center justify-between h-16">
         {/* Logo / Site Name */}
-        <Link href="/" className="flex flex-col leading-tight group">
-          <span className="font-serif font-bold text-navy-700 text-xl tracking-tight group-hover:text-navy-500 transition-colors">
-            ACBC
-          </span>
-          <span className="text-xs text-gray-400 font-sans hidden sm:block">
-            Anchored in Christ Baptist Camp
-          </span>
+        <Link href="/" className="flex items-center gap-3 group">
+          <Image
+            src={IMAGES.logo}
+            alt="ACBC Logo"
+            width={48}
+            height={48}
+            className="rounded-full shrink-0"
+            priority
+          />
+          <div className="flex flex-col leading-tight">
+            <span className="font-serif font-bold text-navy-700 text-xl tracking-tight group-hover:text-navy-500 transition-colors">
+              ACBC
+            </span>
+            <span className="text-xs text-gray-400 font-sans hidden sm:block">
+              Anchored in Christ Baptist Camp
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Nav */}
