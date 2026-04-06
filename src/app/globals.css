@@ -2,20 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Scroll animations for hero background ─────────────────────────── */
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 50s linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 50s linear infinite;
+}
+
+/* ── Base styles ────────────────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-white text-gray-700 font-sans antialiased;
+    @apply bg-white text-gray-700 antialiased;
+    font-family: var(--font-source-sans), system-ui, sans-serif;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    @apply font-serif;
+  h1, h2, h3, h4 {
+    font-family: var(--font-lora), Georgia, serif;
   }
 }
 

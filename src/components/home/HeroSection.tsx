@@ -1,70 +1,120 @@
-// To add a camp background photo:
-// 1. Place your photo at public/images/camp-hero.jpg
-// 2. Uncomment the Image and overlay divs below
-// 3. Add "use client" at the top if you need onError handling
+"use client";
 
 import Button from "@/components/ui/Button";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG, IMAGES } from "@/lib/constants";
 
-// import Image from "next/image";
-// import { IMAGES } from "@/lib/constants";
+const { row1, row2, row3 } = IMAGES.heroBackground;
+
+function ScrollRow({
+  images,
+  direction,
+}: {
+  images: string[];
+  direction: "left" | "right";
+}) {
+  // Duplicate the array so the strip loops seamlessly
+  const doubled = [...images, ...images];
+
+  return (
+    <div className="overflow-hidden flex-1 min-h-0">
+      <div
+        className={`flex h-full gap-0 ${
+          direction === "left" ? "animate-scroll-left" : "animate-scroll-right"
+        }`}
+      >
+        {doubled.map((src, i) => (
+          <div
+            key={i}
+            className="shrink-0 w-80 h-full bg-navy-900 overflow-hidden"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt=""
+              aria-hidden="true"
+              className="w-full h-full object-cover opacity-60"
+              onError={(e) => {
+                e.currentTarget.style.opacity = "0";
+              }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function HeroSection() {
+  const taglineLines = SITE_CONFIG.tagline
+    .split(". ")
+    .filter(Boolean)
+    .map((l) => (l.endsWith(".") ? l : `${l}.`));
+
   return (
     <section className="relative bg-navy-700 text-white min-h-[90vh] flex items-center overflow-hidden">
-      {/*
-        Camp background photo (uncomment once public/images/camp-hero.jpg is added):
-        <Image
-          src={IMAGES.campHero}
-          alt="Camp background"
-          fill
-          className="object-cover opacity-20"
-          priority
-        />
-        <div className="absolute inset-0 bg-navy-700/80" />
-      */}
+      {/* ── Scrolling background ── */}
+      <div className="absolute inset-0 flex flex-col gap-0">
+        <ScrollRow images={row1} direction="left" />
+        <ScrollRow images={row2} direction="right" />
+        <ScrollRow images={row3} direction="left" />
+      </div>
 
-      <div className="relative mx-auto max-w-content px-6 py-24 md:py-32">
-        <h1 className="font-serif text-4xl md:text-6xl font-bold leading-tight max-w-3xl">
-          {SITE_CONFIG.tagline
-            .split(". ")
-            .filter(Boolean)
-            .map((line, i) => (
-              <span key={i} className="block">
-                {line.endsWith(".") ? line : `${line}.`}
-              </span>
-            ))}
-        </h1>
+      {/* ── Navy overlay ── */}
+      <div className="absolute inset-0 bg-navy-700/80" />
 
-        <div className="w-12 border-t-2 border-gold-500 my-8" />
+      {/* ── Hero content — 2-column ── */}
+      <div className="relative z-10 w-full mx-auto max-w-content px-6 py-24 md:py-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
-        <p className="font-sans text-gray-300 text-lg leading-relaxed max-w-prose">
-          Anchored In Christ Baptist Camp (ACBC) is a Christ-centered youth
-          ministry committed to reaching, reviving, and raising up the next
-          generation for the glory of God. Through powerful Bible preaching,
-          old-time worship, and meaningful fellowship, we strive to anchor
-          hearts firmly in Christ.
-        </p>
+          {/* Left column — Tagline */}
+          <div>
+            <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-500 mb-6">
+              Est. 2025 &nbsp;·&nbsp; Ligao City, Albay
+            </p>
+            <h1 className="font-serif text-5xl md:text-6xl font-bold leading-[1.1]">
+              {taglineLines.map((line, i) => (
+                <span key={i} className="block">
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <div className="w-12 border-t-2 border-gold-500 mt-8" />
+          </div>
 
-        <p className="font-sans text-gray-300 text-lg leading-relaxed max-w-prose mt-4">
-          Every year, young people from across the Philippines gather to grow in
-          their faith, build lasting friendships, and make life-changing
-          decisions for Christ. Many have come to know the Lord, surrendered to
-          full-time ministry, and experienced true spiritual revival.
-        </p>
+          {/* Right column — Description + CTAs */}
+          <div className="flex flex-col gap-6">
+            <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-500">
+              Anchored In Christ Baptist Camp
+            </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row gap-4">
-          <Button href="/contact" variant="primary">
-            Join the Camp
-          </Button>
-          <Button
-            href={SITE_CONFIG.givingUrl}
-            external
-            variant="outline"
-            className="border-white text-white hover:bg-white hover:text-navy-700"
-          >
-            Support the Mission
-          </Button>
+            <p className="font-sans text-gray-200 text-base leading-relaxed">
+              A Christ-centered youth ministry committed to reaching, reviving,
+              and raising up the next generation for the glory of God. Through
+              powerful Bible preaching, old-time worship, and meaningful
+              fellowship, we strive to anchor hearts firmly in Christ.
+            </p>
+
+            <p className="font-sans text-gray-300 text-sm leading-relaxed">
+              Every year, young people from across the Philippines gather to
+              grow in their faith, build lasting friendships, and make
+              life-changing decisions for Christ.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 mt-2">
+              <Button href="/contact" variant="primary">
+                Join the Camp
+              </Button>
+              <Button
+                href={SITE_CONFIG.givingUrl}
+                external
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-navy-700"
+              >
+                Support the Mission
+              </Button>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

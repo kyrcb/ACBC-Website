@@ -22,18 +22,27 @@ export const SITE_CONFIG = {
 };
 
 /**
- * Image paths — drop your files into public/images/ and update these paths.
+ * Image paths — drop your files into public/images/ and they wire up automatically.
  *
- * Logo:      public/images/logo.png         (the circular badge logo)
- * Hero bg:   public/images/camp-hero.jpg    (camp photo for hero background)
- * Camp imgs: public/images/camp-*.jpg       (gallery / about section photos)
+ * Logo:
+ *   public/images/logo.png
+ *
+ * Hero background rows (6 photos each, landscape/horizontal preferred):
+ *   public/images/hero-row-1/photo-1.jpg  …  photo-6.jpg   ← top row, scrolls left
+ *   public/images/hero-row-2/photo-1.jpg  …  photo-6.jpg   ← middle row, scrolls right
+ *   public/images/hero-row-3/photo-1.jpg  …  photo-6.jpg   ← bottom row, scrolls left
+ *
+ * General gallery (about page, future use):
+ *   public/images/gallery/photo-1.jpg  …  photo-3.jpg
  */
 export const IMAGES = {
   logo: "/images/logo.png",
-  campHero: "/images/camp-hero.jpg",
-  campGallery: [
-    "/images/camp-1.jpg",
-    "/images/camp-2.jpg",
-    "/images/camp-3.jpg",
-  ],
+
+  heroBackground: {
+    row1: Array.from({ length: 6 }, (_, i) => `/images/hero-row-1/photo-${i + 1}.jpg`),
+    row2: Array.from({ length: 6 }, (_, i) => `/images/hero-row-2/photo-${i + 1}.jpg`),
+    row3: Array.from({ length: 6 }, (_, i) => `/images/hero-row-3/photo-${i + 1}.jpg`),
+  },
+
+  gallery: Array.from({ length: 3 }, (_, i) => `/images/gallery/photo-${i + 1}.jpg`),
 };
