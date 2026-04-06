@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   },
   description:
     "A Christ-centered youth ministry committed to reaching, reviving, and raising up the next generation for the glory of God.",
+  icons: {
+    icon: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
   openGraph: {
     title: "Anchored in Christ Baptist Camp",
     description:

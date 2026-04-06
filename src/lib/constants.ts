@@ -3,7 +3,7 @@ export const SITE_CONFIG = {
   shortName: "ACBC",
   tagline: "Anchored in Christ. Grounded in Truth. Growing in Faith.",
   email: "anchoredinchristbc@gmail.com",
-  phone: "+63 9-- --- ----",
+  phone: "+63 928 783 0552",
   location: "Ligao City, Albay, Philippines, 4504",
   mailingAddress: {
     recipient: "Anchor Baptist Missions International",
@@ -17,6 +17,7 @@ export const SITE_CONFIG = {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "FAQ", href: "/faq" },
+    { label: "Gallery", href: "/gallery" },
     { label: "Contact", href: "/contact" },
   ],
 };
