@@ -37,6 +37,17 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-8">
           {SITE_CONFIG.navLinks.map((link) => {
             const isActive = pathname === link.href;
+            if (link.cta) {
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="font-sans text-sm uppercase tracking-widest px-4 py-2 bg-gold-500 text-navy-900 hover:bg-gold-700 transition-colors duration-200"
+                >
+                  {link.label}
+                </Link>
+              );
+            }
             return (
               <Link
                 key={link.href}
@@ -84,6 +95,18 @@ export default function Navbar() {
           <nav className="flex flex-col gap-4">
             {SITE_CONFIG.navLinks.map((link) => {
               const isActive = pathname === link.href;
+              if (link.cta) {
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="font-sans text-sm uppercase tracking-widest py-2 px-4 bg-gold-500 text-navy-900 hover:bg-gold-700 transition-colors duration-200 text-center"
+                  >
+                    {link.label}
+                  </Link>
+                );
+              }
               return (
                 <Link
                   key={link.href}
