@@ -50,5 +50,6 @@ export const IMAGES = {
 
   join2026: {
     themeBg: "/images/join-2026/theme-bg.png",
+    themeTypography: "/images/join-2026/theme-typography.png",
   },
 };

@@ -64,9 +64,13 @@ export default function JoinPage() {
             <p className="font-sans text-xs uppercase tracking-widest text-gold-400 mb-2">
               Theme
             </p>
-            <h2 className="font-serif text-4xl font-bold text-gold-400 mb-6">
-              Unchained
-            </h2>
+            <Image
+              src={IMAGES.join2026.themeTypography}
+              alt="Unchained"
+              width={480}
+              height={100}
+              className="w-full max-w-xs mb-6"
+            />
             <p className="font-sans text-xs uppercase tracking-widest text-gray-400 mb-2">
               Galatians 5:1 (KJV)
             </p>
