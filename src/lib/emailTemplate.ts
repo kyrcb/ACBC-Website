@@ -13,7 +13,6 @@ interface ContactEmailData {
   email: string;
   contactNumber?: string;
   message: string;
-  logoSrc: string; // base64 data URI or absolute URL
 }
 
 function field(label: string, value: string, isLink?: string): string {
@@ -33,7 +32,7 @@ function field(label: string, value: string, isLink?: string): string {
 }
 
 export function buildContactEmail(data: ContactEmailData): string {
-  const { fullName, email, contactNumber, message, logoSrc } = data;
+  const { fullName, email, contactNumber, message } = data;
   const firstName = fullName.split(" ")[0];
 
   return `<!DOCTYPE html>
@@ -56,7 +55,7 @@ export function buildContactEmail(data: ContactEmailData): string {
           <tr>
             <td style="background:#1A3A78;padding:40px 40px 32px;text-align:center;">
               <img
-                src="${logoSrc}"
+                src="cid:acbc-logo"
                 alt="ACBC Logo"
                 width="80"
                 height="80"

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import dns from "dns";
-import fs from "fs";
 import path from "path";
 import { promisify } from "util";
 import nodemailer from "nodemailer";
@@ -55,10 +54,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Embed the logo as a base64 data URI so it shows in all email clients
     const logoPath = path.join(process.cwd(), "public", "images", "logo.png");
-    const logoBase64 = fs.readFileSync(logoPath).toString("base64");
-    const logoSrc = `data:image/png;base64,${logoBase64}`;
 
     await transporter.sendMail({
       from: `"ACBC Website" <${process.env.GMAIL_USER}>`,
@@ -70,8 +66,15 @@ export async function POST(req: NextRequest) {
         email: email.trim(),
         contactNumber: contactNumber?.trim() || undefined,
         message: message.trim(),
-        logoSrc,
       }),
+      // CID attachment — referenced in the HTML as src="cid:acbc-logo"
+      attachments: [
+        {
+          filename: "logo.png",
+          path: logoPath,
+          cid: "acbc-logo",
+        },
+      ],
     });
 
     return NextResponse.json({ success: true });
