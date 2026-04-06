@@ -1,48 +1,10 @@
 "use client";
 
 import Button from "@/components/ui/Button";
+import ScrollRow from "@/components/ui/ScrollRow";
 import { SITE_CONFIG, IMAGES } from "@/lib/constants";
 
 const { row1, row2, row3 } = IMAGES.heroBackground;
-
-function ScrollRow({
-  images,
-  direction,
-}: {
-  images: string[];
-  direction: "left" | "right";
-}) {
-  // Duplicate the array so the strip loops seamlessly
-  const doubled = [...images, ...images];
-
-  return (
-    <div className="overflow-hidden flex-1 min-h-0">
-      <div
-        className={`flex h-full gap-0 ${
-          direction === "left" ? "animate-scroll-left" : "animate-scroll-right"
-        }`}
-      >
-        {doubled.map((src, i) => (
-          <div
-            key={i}
-            className="shrink-0 w-80 h-full bg-navy-900 overflow-hidden"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt=""
-              aria-hidden="true"
-              className="w-full h-full object-cover opacity-60"
-              onError={(e) => {
-                e.currentTarget.style.opacity = "0";
-              }}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default function HeroSection() {
   const taglineLines = SITE_CONFIG.tagline
