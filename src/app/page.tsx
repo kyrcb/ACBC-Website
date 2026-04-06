@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/home/HeroSection";
+import GalleryPreview from "@/components/home/GalleryPreview";
 import CtaGrid from "@/components/home/CtaGrid";
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <GalleryPreview />
       <CtaGrid />
     </>
   );
