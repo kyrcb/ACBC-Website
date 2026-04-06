@@ -19,6 +19,7 @@ export const SITE_CONFIG = {
     { label: "FAQ", href: "/faq" },
     { label: "Gallery", href: "/gallery" },
     { label: "Contact", href: "/contact" },
+    { label: "Join ACBC 2026", href: "/join-2026", cta: true },
   ],
 };
 
@@ -46,4 +47,8 @@ export const IMAGES = {
   },
 
   gallery: Array.from({ length: 3 }, (_, i) => `/images/gallery/photo-${i + 1}.jpg`),
+
+  join2026: {
+    themeBg: "/images/join-2026/theme-bg.png",
+  },
 };

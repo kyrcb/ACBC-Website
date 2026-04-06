@@ -6,4 +6,6 @@ Place your image files here. Expected filenames:
   camp-2.jpg       — Camp gallery photo 2
   camp-3.jpg       — Camp gallery photo 3
 
+join-2026/theme-bg.jpg — Background image for the "Unchained" theme card on the Join 2026 page
+
 All paths are configured in: src/lib/constants.ts → IMAGES
