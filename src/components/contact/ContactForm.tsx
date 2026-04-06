@@ -56,6 +56,8 @@ export default function ContactForm() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -65,17 +67,43 @@ export default function ContactForm() {
     if (errors[name as keyof FormState]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
+    if (apiError) setApiError(null);
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const validationErrors = validate(form);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    setSubmitted(true);
-    setForm(EMPTY_FORM);
+
+    setLoading(true);
+    setApiError(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error ?? "Something went wrong.");
+      }
+
+      setSubmitted(true);
+      setForm(EMPTY_FORM);
+    } catch (err) {
+      setApiError(
+        err instanceof Error
+          ? err.message
+          : "Failed to send your message. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (submitted) {
@@ -185,9 +213,15 @@ export default function ContactForm() {
           )}
         </div>
 
+        {apiError && (
+          <p className="font-sans text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-3">
+            {apiError}
+          </p>
+        )}
+
         <div>
-          <Button type="submit" variant="primary">
-            Submit Message
+          <Button type="submit" variant="primary" disabled={loading}>
+            {loading ? "Sending…" : "Submit Message"}
           </Button>
         </div>
       </form>
