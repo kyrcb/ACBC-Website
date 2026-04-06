@@ -51,8 +51,7 @@ function getCardStyle(
     top: "0",
     marginLeft: `-${halfCard}px`,
     transform: `translateX(${translateX}px) scale(${1 - dispAbs * 0.16}) rotateY(${-(sign * dispAbs) * 28}deg)`,
-    opacity: isHidden ? 0 : abs === 0 ? 1 : abs === 1 ? 0.85 : 0.5,
-    filter: `brightness(${dispAbs === 0 ? 1 : dispAbs === 1 ? 0.55 : 0.3})`,
+    opacity: isHidden ? 0 : 1,
     zIndex: isHidden ? 0 : 10 - abs,
     pointerEvents: isHidden ? "none" : "auto",
     transition: "all 0.55s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -94,19 +93,19 @@ export default function GalleryPreview() {
   }, [paused, prev, next]);
 
   return (
-    <section className="bg-navy-900 py-16 md:py-24 overflow-hidden">
+    <section className="bg-gray-50 py-16 md:py-24 overflow-hidden">
       <div className="mx-auto max-w-content px-6">
 
         {/* Header */}
         <div className="text-center mb-14">
-          <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-500 mb-4">
+          <p className="font-sans text-xs uppercase tracking-[0.3em] text-gold-700 mb-4">
             Camp Memories
           </p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-navy-700 mb-6">
             Life at Camp
           </h2>
           <div className="w-12 border-t-2 border-gold-500 mx-auto mb-6" />
-          <p className="font-sans text-gray-300 text-base max-w-prose mx-auto leading-relaxed">
+          <p className="font-sans text-gray-600 text-base max-w-prose mx-auto leading-relaxed">
             Every summer, young people come together to grow in faith, build
             lasting friendships, and encounter God in a powerful way.
           </p>
@@ -119,39 +118,53 @@ export default function GalleryPreview() {
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {PREVIEW_IMAGES.map((item, i) => (
-            <div
-              key={i}
-              style={getCardStyle(i, current, cfg.positions, cfg.halfCard)}
-              onClick={() => i !== current && setCurrent(i)}
-              aria-label={i !== current ? `View photo ${i + 1}` : undefined}
-            >
-              {/* Polaroid card — w-56 mobile / w-[26rem] desktop */}
-              <div className="bg-white p-2 md:p-3 pb-9 md:pb-14 shadow-2xl w-56 md:w-[26rem]">
-                <div className="aspect-square overflow-hidden bg-gray-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.src}
-                    alt={`Camp photo ${i + 1}`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.opacity = "0";
-                    }}
-                  />
+          {PREVIEW_IMAGES.map((item, i) => {
+            // Compute offset so we can drive the image-only dim overlay
+            let off = i - current;
+            if (off > TOTAL / 2) off -= TOTAL;
+            if (off < -TOTAL / 2) off += TOTAL;
+            const dispAbs = Math.min(Math.abs(off), 2);
+            const overlayOpacity = dispAbs === 0 ? 0 : dispAbs === 1 ? 0.45 : 0.68;
+
+            return (
+              <div
+                key={i}
+                style={getCardStyle(i, current, cfg.positions, cfg.halfCard)}
+                onClick={() => i !== current && setCurrent(i)}
+                aria-label={i !== current ? `View photo ${i + 1}` : undefined}
+              >
+                {/* Polaroid card — w-56 mobile / w-[26rem] desktop */}
+                <div className="bg-white p-2 md:p-3 pb-9 md:pb-14 shadow-xl w-56 md:w-[26rem]">
+                  <div className="relative aspect-square overflow-hidden bg-gray-200">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.src}
+                      alt={`Camp photo ${i + 1}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.opacity = "0";
+                      }}
+                    />
+                    {/* Fade-to-white overlay on the photo only — keeps the white frame & shadow natural */}
+                    <div
+                      className="absolute inset-0 bg-white transition-opacity duration-[550ms]"
+                      style={{ opacity: overlayOpacity }}
+                    />
+                  </div>
+                  <p className="font-sans text-[10px] md:text-xs text-center text-navy-700 mt-3 tracking-widest uppercase opacity-60">
+                    {item.caption}
+                  </p>
                 </div>
-                <p className="font-sans text-[10px] md:text-xs text-center text-navy-700 mt-3 tracking-widest uppercase opacity-60">
-                  {item.caption}
-                </p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Controls */}
         <div className="flex items-center justify-center gap-5 mb-10">
           <button
             onClick={prev}
-            className="text-white/40 hover:text-gold-500 transition-colors text-4xl leading-none w-10 h-10 flex items-center justify-center"
+            className="text-gray-400 hover:text-navy-700 transition-colors text-4xl leading-none w-10 h-10 flex items-center justify-center"
             aria-label="Previous photo"
           >
             ‹
@@ -165,7 +178,7 @@ export default function GalleryPreview() {
                 className={`h-1.5 rounded-full transition-all duration-300 ${
                   i === current
                     ? "bg-gold-500 w-6"
-                    : "bg-white/25 w-1.5 hover:bg-white/50"
+                    : "bg-gray-300 w-1.5 hover:bg-gray-400"
                 }`}
                 aria-label={`Go to photo ${i + 1}`}
               />
@@ -174,7 +187,7 @@ export default function GalleryPreview() {
 
           <button
             onClick={next}
-            className="text-white/40 hover:text-gold-500 transition-colors text-4xl leading-none w-10 h-10 flex items-center justify-center"
+            className="text-gray-400 hover:text-navy-700 transition-colors text-4xl leading-none w-10 h-10 flex items-center justify-center"
             aria-label="Next photo"
           >
             ›
