@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { SITE_CONFIG } from "@/lib/constants";
+import Image from "next/image";
+import { SITE_CONFIG, IMAGES } from "@/lib/constants";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,12 +11,27 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Column 1: About */}
           <div>
-            <h3 className="font-serif text-lg font-semibold mb-3">ACBC</h3>
+            <div className="flex items-center gap-3 mb-3">
+              <Image
+                src={IMAGES.logo}
+                alt="ACBC Logo"
+                width={44}
+                height={44}
+                className="rounded-full shrink-0"
+              />
+              <div className="flex flex-col leading-tight">
+                <span className="font-serif font-bold text-white text-base tracking-tight">
+                  ACBC
+                </span>
+                <span className="font-sans text-xs text-gray-400">
+                  Anchored in Christ Baptist Camp
+                </span>
+              </div>
+            </div>
             <div className="w-8 border-t-2 border-gold-500 mb-4" />
             <p className="font-sans text-sm text-gray-400 leading-relaxed">
-              Anchored In Christ Baptist Camp — a Christ-centered youth ministry
-              committed to reaching, reviving, and raising up the next
-              generation for the glory of God.
+              A Christ-centered youth ministry committed to reaching, reviving,
+              and raising up the next generation for the glory of God.
             </p>
           </div>
 
