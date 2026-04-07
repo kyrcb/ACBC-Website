@@ -47,9 +47,11 @@ export interface AnalyticsData {
 // ---------------------------------------------------------------------------
 
 function pemToDer(pem: string): ArrayBuffer {
-  const b64 = pem
-    .replace(/-----BEGIN PRIVATE KEY-----/, "")
-    .replace(/-----END PRIVATE KEY-----/, "")
+  // Strip any surrounding quotes (common when pasting into Vercel env vars)
+  const stripped = pem.trim().replace(/^["']|["']$/g, "");
+  // Remove PEM headers/footers and all whitespace to get pure base64
+  const b64 = stripped
+    .replace(/-----[^-]+-----/g, "")
     .replace(/\s/g, "");
   const binary = atob(b64);
   const bytes = new Uint8Array(binary.length);
@@ -205,7 +207,10 @@ const EMPTY: AnalyticsData = {
 
 export async function fetchGA4Data(): Promise<AnalyticsData> {
   const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  // Handle both literal \n (from .env.local) and already-expanded newlines (from Vercel)
+  const privateKey = process.env.GOOGLE_PRIVATE_KEY
+    ?.replace(/\\n/g, "\n")
+    .trim();
   const propertyId = process.env.GA4_PROPERTY_ID;
 
   if (!clientEmail || !privateKey || !propertyId) {
